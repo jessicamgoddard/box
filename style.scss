@@ -4,8 +4,15 @@
  * CSS for both Frontend+Backend.
  */
 
- .wp-block-pandp-blocks-clear::before {
-   content: '';
-   clear: both;
-   display: table;
- }
+.wp-block-pandp-blocks-box {
+
+  .shapes {
+    overflow: visible;
+
+    .blob {
+      visibility: hidden;
+    }
+    
+  }
+
+}

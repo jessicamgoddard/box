@@ -11,6 +11,7 @@ import './style.scss';
 
 // Import icon.
 import icon from '../icon.js';
+import shapes from './shapes.js';
 
 const { __ } = wp.i18n; // Import __() from wp.i18n
 const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.blocks
@@ -118,7 +119,6 @@ registerBlockType( 'pandp-blocks/box', {
 
 		return [
       <InspectorControls>
-      {console.log( props )}
         <PanelBody title={ __( 'Box Settings' ) }>
           <PanelRow>
             <label>Background Image</label>
@@ -226,6 +226,7 @@ registerBlockType( 'pandp-blocks/box', {
                 ] }
               />
             </div>
+            <div class="box-svg">{ shapes }</div>
           </div>
         ) : (
           <a href={ url }>
@@ -237,6 +238,7 @@ registerBlockType( 'pandp-blocks/box', {
                   ] }
                 />
               </div>
+              <div class="box-svg">{ shapes }</div>
             </div>
           </a>
         ) }
@@ -280,6 +282,7 @@ registerBlockType( 'pandp-blocks/box', {
             <div className="box-content">
               <InnerBlocks.Content />
             </div>
+            <div class="box-svg">{ shapes }</div>
           </div>
         ) : (
           <a href={ url }>
@@ -287,6 +290,7 @@ registerBlockType( 'pandp-blocks/box', {
               <div className="box-content">
                 <InnerBlocks.Content />
               </div>
+              <div class="box-svg">{ shapes }</div>
             </div>
           </a>
         ) }
