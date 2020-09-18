@@ -38,30 +38,53 @@ const blobToSquare = function( square, squareD ) {
 }
 
 // Get all SVGs
-const boxes = document.querySelectorAll( '.wp-block-pandp-blocks-box .box' );
+const boxes = document.querySelectorAll( '.wp-block-pandp-blocks-box' );
 
 if( boxes ) {
 
   for( let i = 0; i < boxes.length; i++ ) {
 
-    clipPathID( boxes[i], [i] );
+    if( boxes[i].querySelector( 'a' ) ) {
 
-    boxes[i].addEventListener( 'mouseenter', function() {
+      const box = boxes[i].querySelector( '.box' );
 
-      let square = this.querySelector( '.box-svg #square' );
-      let squareD = square.getAttribute( 'd' );
-      let blobs = this.querySelectorAll( '.box-svg .blob' );
-      let blob = blobs[Math.floor(Math.random()*blobs.length)];
+      clipPathID( boxes[i], [i] );
 
-      squareToBlob( square, blob );
+      boxes[i].addEventListener( 'mouseenter', function() {
 
-      this.addEventListener( 'mouseleave', function() {
+        let square = this.querySelector( '.box-svg #square' );
+        let squareD = square.getAttribute( 'd' );
+        let blobs = this.querySelectorAll( '.box-svg .blob' );
+        let blob = blobs[Math.floor(Math.random()*blobs.length)];
 
-        blobToSquare( square, squareD );
+        squareToBlob( square, blob );
+
+        this.addEventListener( 'mouseleave', function() {
+
+          blobToSquare( square, squareD );
+
+        }, false );
 
       }, false );
 
-    }, false );
+    }
+
+  }
+
+}
+
+const editorBoxes = document.querySelectorAll( '.block-editor .wp-block-pandp-blocks-box' );
+if( editorBoxes ) {
+
+  for( let i = 0; i < editorBoxes.length; i++ ) {
+
+    console.log( 'yes' );
+
+    const link = editorBoxes[i].querySelector( 'a' );
+
+    if( link ) {
+      link.href = '';
+    }
 
   }
 

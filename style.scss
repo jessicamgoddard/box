@@ -8,10 +8,43 @@
   color: #fff;
   margin-bottom: 1.875rem;
 
+  a,
+  & > .box {
+    width: 80%;
+  }
+
+  a {
+    position: relative;
+    text-decoration: none;
+
+    &::before {
+      content: 'Visit Link';
+      display: none;
+        align-items: center;
+        justify-content: center;
+      font-size: 3rem;
+      position: absolute;
+        top: 0;
+        right: 0;
+        left: 0;
+        bottom: 0;
+      z-index: 1;
+    }
+
+    &:hover::before {
+      display: flex;
+    }
+
+    &:hover .box-content {
+      opacity: .2;
+      transition: all 500ms ease-in-out;
+    }
+
+  }
+
   .box {
     display: flex;
     position: relative;
-    width: 80%;
 
     &::before {
       content: '';
@@ -21,7 +54,6 @@
 
     .box-content {
       margin: 10%;
-      position: absolute;
       z-index: 1;
     }
 
@@ -39,7 +71,9 @@
     }
 
     .box-bkg {
+      border-radius: 30px;
       clip-path: url(#clipPath);
+      overflow: hidden;
       position: absolute;
         top: 0;
         right: 0;
@@ -81,11 +115,13 @@
     align-items: flex-end;
   }
 
-  &.is-size-medium .box {
+  &.is-size-medium a,
+  &.is-size-medium > .box {
     width: 90%;
   }
 
-  &.is-size-large .box {
+  &.is-size-large a,
+  &.is-size-large > .box {
     width: 100%;
   }
 
@@ -98,10 +134,15 @@
 
 @media only screen and (min-width: 56.25rem) {
 
-  .wp-block-pandp-blocks-box .box {
-    width: 60%;
+  .wp-block-pandp-blocks-box {
 
-    &.is-size-medium {
+    a,
+    & > .box {
+      width: 60%;
+    }
+
+    &.is-size-medium a,
+    &.is-size-medium > .box {
       width: 80%;
     }
 
