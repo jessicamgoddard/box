@@ -5,14 +5,106 @@
  */
 
 .wp-block-pandp-blocks-box {
+  color: #fff;
+  margin-bottom: 1.875rem;
 
-  .shapes {
-    overflow: visible;
+  .box {
+    display: flex;
+    position: relative;
+    width: 80%;
 
-    .blob {
-      visibility: hidden;
+    &::before {
+      content: '';
+      padding-bottom: 100%;
+      width: 0;
     }
-    
+
+    .box-content {
+      margin: 10%;
+      position: absolute;
+      z-index: 1;
+    }
+
+    .box-svg {
+
+      .shapes {
+        overflow: visible;
+
+        .blob {
+          visibility: hidden;
+        }
+
+      }
+
+    }
+
+    .box-bkg {
+      clip-path: url(#clipPath);
+      position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+
+      &::after {
+        background-color: $black;
+        content: '';
+        display: block;
+        position: absolute;
+          top: 0;
+          right: 0;
+          bottom: 0;
+          left: 0;
+        z-index: -1;
+      }
+
+      .bkg-img {
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        display: block;
+        height: 100%;
+        mix-blend-mode: multiply;
+        opacity: .22;
+        width: 100%;
+      }
+
+    }
+
+  }
+
+  &.is-vertical-align-middle .box {
+    align-items: center;
+  }
+
+  &.is-vertical-align-bottom .box {
+    align-items: flex-end;
+  }
+
+  &.is-size-medium .box {
+    width: 90%;
+  }
+
+  &.is-size-large .box {
+    width: 100%;
+  }
+
+}
+
+.wp-block-columns:first-of-type .wp-block-pandp-blocks-box {
+  display: flex;
+    justify-content: flex-end;
+}
+
+@media only screen and (min-width: 56.25rem) {
+
+  .wp-block-pandp-blocks-box .box {
+    width: 60%;
+
+    &.is-size-medium {
+      width: 80%;
+    }
+
   }
 
 }

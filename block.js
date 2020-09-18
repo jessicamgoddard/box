@@ -15,9 +15,9 @@ import shapes from './shapes.js';
 
 const { __ } = wp.i18n; // Import __() from wp.i18n
 const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.blocks
-const { InnerBlocks, InspectorControls, MediaUpload, MediaUploadCheck, URLInput, getColorClassName, PanelColorSettings } = wp.editor;
+const { MediaUpload, MediaUploadCheck, URLInput, PanelColorSettings } = wp.editor;
 const { PanelBody, PanelRow, SelectControl, Button, Tooltip } = wp.components;
-const { withColors } = wp.blockEditor;
+const { withColors, getColorClassName, InnerBlocks, InspectorControls } = wp.blockEditor;
 
 /**
  * Register: aa Gutenberg Block.
@@ -82,7 +82,7 @@ registerBlockType( 'pandp-blocks/box', {
 	 * @param {Object} props Props.
 	 * @returns {Mixed} JSX Component.
 	 */
-	edit: withColors( { boxColor: 'color' } )( ( props ) => {
+	edit: withColors( { boxColor: 'box-color' } )( ( props ) => {
 
     const { attributes: { backgroundImageURL, backgroundImageID, url, boxSize, verticalAlign },
       className, setAttributes, isSelected, boxColor, setBoxColor } = props;
@@ -105,7 +105,7 @@ registerBlockType( 'pandp-blocks/box', {
       } );
     };
 
-    let colorClass = 'has-default-color';
+    let colorClass = 'has-default-box-color';
 
     if( boxColor != undefined ) {
       if( boxColor.class != undefined ) {
@@ -120,59 +120,56 @@ registerBlockType( 'pandp-blocks/box', {
 		return [
       <InspectorControls>
         <PanelBody title={ __( 'Box Settings' ) }>
-          <PanelRow>
-            <label>Background Image</label>
-            { ! backgroundImageID ? (
-              <MediaUploadCheck>
-                <MediaUpload
-                  onSelect={ onSelectImage }
-                  allowedTypes={ ['image'] }
-                  value={ backgroundImageID }
-                  render={ ( { open } ) => (
-                    <Button
-                      className={ "button button-large" }
-                      onClick={ open }
-                    >
-                      { __( 'Upload Image' ) }
-                    </Button>
-                  ) }
-                >
-                </MediaUpload>
-              </MediaUploadCheck>
-            ) : (
-              <div>
-                <img src={ backgroundImageURL } />
 
-                { isSelected ? (
+          <label>Background Image</label>
+          { ! backgroundImageID ? (
+            <MediaUploadCheck>
+              <MediaUpload
+                onSelect={ onSelectImage }
+                allowedTypes={ ['image'] }
+                value={ backgroundImageID }
+                render={ ( { open } ) => (
                   <Button
-                    className="button remove-image"
-                    onClick={ onRemoveImage }
+                    className={ "button button-large" }
+                    onClick={ open }
                   >
-                    { __( 'Remove Image' ) }
+                    { __( 'Upload Image' ) }
                   </Button>
-                ) : null }
-              </div>
-            ) }
-          </PanelRow>
+                ) }
+              >
+              </MediaUpload>
+            </MediaUploadCheck>
+          ) : (
+            <div>
+              <img src={ backgroundImageURL } />
 
-          <PanelRow>
-            <label>Link</label>
-            { isSelected ? (
-              <form onSubmit={ event => event.preventDefault() }>
-                <URLInput
-                  className="url"
-                  value={ url }
-                  onChange={ url => setAttributes( { url } ) }
-                />
-              </form>
-            ) : (
-              <p>
-                <a href={ url }>
-                  { __( 'Edit Link' ) }
-                </a>
-              </p>
-            ) }
-          </PanelRow>
+              { isSelected ? (
+                <Button
+                  className="button remove-image"
+                  onClick={ onRemoveImage }
+                >
+                  { __( 'Remove Image' ) }
+                </Button>
+              ) : null }
+            </div>
+          ) }
+
+          <label>Link</label>
+          { isSelected ? (
+            <form onSubmit={ event => event.preventDefault() }>
+              <URLInput
+                className="url"
+                value={ url }
+                onChange={ url => setAttributes( { url } ) }
+              />
+            </form>
+          ) : (
+            <p>
+              <a href={ url }>
+                { __( 'Edit Link' ) }
+              </a>
+            </p>
+          ) }
 
           <PanelRow>
             <SelectControl
@@ -207,7 +204,7 @@ registerBlockType( 'pandp-blocks/box', {
                 {
                   value: boxColor.color,
                   onChange: setBoxColor,
-                  label: __( 'Color' ),
+                  label: __( 'Box Color' ),
                 }
               ] }
             >
@@ -218,7 +215,7 @@ registerBlockType( 'pandp-blocks/box', {
       </InspectorControls>,
 			<div className={ `${ className } is-size-${ boxSize } is-vertical-align-${ verticalAlign } ${ colorClass }` }>
         { isUrlEmpty ? (
-          <div className="box" style={ boxStyle }>
+          <div className="box">
     				<div className="box-content">
               <InnerBlocks
                 template={ [
@@ -227,10 +224,11 @@ registerBlockType( 'pandp-blocks/box', {
               />
             </div>
             <div class="box-svg">{ shapes }</div>
+            <div class="box-bkg"><div class="bkg-img" style={ boxStyle }></div></div>
           </div>
         ) : (
           <a href={ url }>
-            <div className="box" style={ boxStyle }>
+            <div className="box">
       				<div className="box-content">
                 <InnerBlocks
                   template={ [
@@ -239,6 +237,7 @@ registerBlockType( 'pandp-blocks/box', {
                 />
               </div>
               <div class="box-svg">{ shapes }</div>
+              <div class="box-bkg"><div class="bkg-img" style={ boxStyle }></div></div>
             </div>
           </a>
         ) }
@@ -263,9 +262,9 @@ registerBlockType( 'pandp-blocks/box', {
 
     const { attributes: { backgroundImageURL, url, boxSize, verticalAlign, boxColor }, className } = props;
 
-    let colorClass = 'has-default-color';
+    let colorClass = 'has-default-box-color';
     if( boxColor != undefined ) {
-      colorClass = getColorClassName( 'color', boxColor );
+      colorClass = getColorClassName( 'box-color', boxColor );
     }
     const classes = `is-size-${ boxSize } is-vertical-align-${ verticalAlign } ${ colorClass }`;
 
@@ -278,19 +277,21 @@ registerBlockType( 'pandp-blocks/box', {
 		return (
 			<div className={ classes }>
         { isUrlEmpty ? (
-          <div className="box" style={ boxStyle }>
+          <div className="box">
             <div className="box-content">
               <InnerBlocks.Content />
             </div>
             <div class="box-svg">{ shapes }</div>
+            <div class="box-bkg"><div class="bkg-img" style={ boxStyle }></div></div>
           </div>
         ) : (
           <a href={ url }>
-            <div className="box" style={ boxStyle }>
+            <div className="box">
               <div className="box-content">
                 <InnerBlocks.Content />
               </div>
               <div class="box-svg">{ shapes }</div>
+              <div class="box-bkg"><div class="bkg-img" style={ boxStyle }></div></div>
             </div>
           </a>
         ) }
