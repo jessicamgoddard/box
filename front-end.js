@@ -72,20 +72,3 @@ if( boxes ) {
   }
 
 }
-
-const editorBoxes = document.querySelectorAll( '.block-editor .wp-block-pandp-blocks-box' );
-if( editorBoxes ) {
-
-  for( let i = 0; i < editorBoxes.length; i++ ) {
-
-    console.log( 'yes' );
-
-    const link = editorBoxes[i].querySelector( 'a' );
-
-    if( link ) {
-      link.href = '';
-    }
-
-  }
-
-}
