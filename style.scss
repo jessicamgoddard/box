@@ -14,6 +14,7 @@
   }
 
   a {
+    display: block;
     font-weight: 400;
     position: relative;
     text-decoration: none;
@@ -129,7 +130,7 @@
 
 }
 
-.wp-block-columns:first-of-type .wp-block-pandp-blocks-box {
+.wp-block-columns .wp-block-column:first-of-type .wp-block-pandp-blocks-box {
   display: flex;
     justify-content: flex-end;
 }

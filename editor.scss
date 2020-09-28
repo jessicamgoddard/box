@@ -12,3 +12,15 @@
 .block-editor-url-input input[type="text"] {
   width: auto;
 }
+
+.wp-block-pandp-blocks-box a::before {
+  display: none !important;
+}
+
+.wp-block-pandp-blocks-box a:hover .box-content {
+  opacity: 1;
+}
+
+.wp-block-pandp-blocks-box .box-content {
+  width: 100%;
+}
