@@ -34,11 +34,13 @@
       z-index: 1;
     }
 
-    &:hover::before {
+    &:hover::before,
+    &:focus::before {
       display: flex;
     }
 
-    &:hover .box-content {
+    &:hover .box-content,
+    &:focus .box-content {
       opacity: .2;
       transition: all 500ms ease-in-out;
     }
@@ -56,6 +58,8 @@
     }
 
     .box-content {
+      flex-basis: 80%;
+      flex-shrink: 0;
       margin: 10%;
       z-index: 1;
     }
