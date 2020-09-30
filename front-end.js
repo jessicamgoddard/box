@@ -1,13 +1,16 @@
+// Set unique ID for each box on the page
 const clipPathID = function( box, number ) {
-
+  // Get the clipPath from the active SVG
   const clipPath = box.querySelector( '.box-svg #clipPath' );
+  // Get the background for the active box (contains image if applicable and color)
   const boxBkg = box.querySelector( '.box-bkg' );
-
+  // Add one to th enumber
   number++;
-
+  // Set the ID of the clip path
   clipPath.id = 'clipPath-' + number;
-
+  // Add clip-path style to background
   boxBkg.style.clipPath = 'url(#' + clipPath.id + ')';
+  boxBkg.style.webkitClipPath = 'url(#' + clipPath.id + ')';
 
 }
 
@@ -37,35 +40,44 @@ const blobToSquare = function( square, squareD ) {
 
 }
 
-// Get all SVGs
-const boxes = document.querySelectorAll( '.wp-block-pandp-blocks-box' );
+if (navigator.userAgent.indexOf('Safari') != -1 && navigator.userAgent.indexOf('Chrome') == -1) {
 
-if( boxes ) {
+} else {
 
-  for( let i = 0; i < boxes.length; i++ ) {
+  // Get all SVGs
+  const boxes = document.querySelectorAll( '.wp-block-pandp-blocks-box' );
 
-    if( boxes[i].querySelector( 'a' ) ) {
+  // If there are boxes
+  if( boxes ) {
+    // For each box
+    for( let i = 0; i < boxes.length; i++ ) {
+      // If the box has a link
+      if( boxes[i].querySelector( 'a' ) ) {
+        // Create the box variable
+        const box = boxes[i].querySelector( '.box' );
+        // Call function using current box and number of active box
+        clipPathID( boxes[i], [i] );
 
-      const box = boxes[i].querySelector( '.box' );
+        let square = boxes[i].querySelector( '.box-svg #square' );
+        const squareD = square.getAttribute( 'd' );
 
-      clipPathID( boxes[i], [i] );
+        // Listen for mouse to enter a box
+        boxes[i].addEventListener( 'mouseover', function() {
 
-      boxes[i].addEventListener( 'mouseenter', function() {
+          let blobs = this.querySelectorAll( '.box-svg .blob' );
+          let blob = blobs[Math.floor(Math.random()*blobs.length)];
 
-        let square = this.querySelector( '.box-svg #square' );
-        let squareD = square.getAttribute( 'd' );
-        let blobs = this.querySelectorAll( '.box-svg .blob' );
-        let blob = blobs[Math.floor(Math.random()*blobs.length)];
+          squareToBlob( square, blob );
 
-        squareToBlob( square, blob );
+          this.addEventListener( 'mouseout', function() {
 
-        this.addEventListener( 'mouseleave', function() {
+            blobToSquare( square, squareD );
 
-          blobToSquare( square, squareD );
+          }, false );
 
         }, false );
 
-      }, false );
+      }
 
     }
 
